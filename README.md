@@ -8,7 +8,7 @@ Este projeto foi desenvolvido com o objetivo de listar dados sobre pokemons, tal
   <img alt="Pokedex tela" src="./.github/telaApp.png" width="400px" />
 </p>
 <p align="center">
-  <img alt="Pokedex tela" src="./.github/telaApp2.png" width="400px" />
+  <img alt="Pokedex tela" src="./.github/telaApp2.gif" width="400px" />
 </p>
 
 ### Funcionalidades
