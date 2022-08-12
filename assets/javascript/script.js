@@ -1,16 +1,15 @@
-const pokemonName = document.querySelector(".pokemon_name");
-const pokemonNumber = document.querySelector(".pokemon_number");
-const pokemonImage = document.querySelector(".pokemon_image");
+const nomePokemon = document.querySelector(".pokemon_name");
+const numeroPokemon = document.querySelector(".pokemon_number");
+const imgPokemon = document.querySelector(".pokemon_image");
 
-pokemonImage.src =
-  "https://i.gifer.com/origin/28/2860d2d8c3a1e402e0fc8913cd92cd7a_w200.gif";
+imgPokemon.src = "./img/images/init.gif";
 const form = document.querySelector(".form");
 const input = document.querySelector(".input_search");
 
-const btnPrev = document.querySelector(".btn-prev");
-const btnNext = document.querySelector(".btn-next");
+const btnAnterior = document.querySelector(".btn-prev");
+const btnProximo = document.querySelector(".btn-next");
 
-let searchPokemon = 0;
+let pokemonWrapper = 0;
 
 const fetchPokemon = async (pokemon) => {
   const APIResponse = await fetch(
@@ -24,27 +23,14 @@ const fetchPokemon = async (pokemon) => {
 };
 
 const renderPokemon = async (pokemon) => {
-  pokemonNumber.innerHTML = ":)";
-  pokemonName.innerHTML = "Carregando";
-  pokemonImage.src =
-    "https://cdn.discordapp.com/attachments/733022670278492172/1007305076756467753/oie_1117929TlpDHY7r.gif";
+  loading();
 
-  const data = await fetchPokemon(pokemon);
-
-  if (data) {
-    pokemonName.innerHTML = data.name;
-    pokemonNumber.innerHTML = data.id;
-    searchPokemon = data.id;
-    console.log(searchPokemon);
-    pokemonImage.src = await data["sprites"]["versions"]["generation-v"][
-      "black-white"
-    ]["animated"]["front_default"];
-
-    input.value = "";
+  if (isNumber(pokemon)) {
+    const data = await fetchPokemon(pokemon);
+    isPokemon(data);
   } else {
-    pokemonNumber.innerHTML = "404";
-    pokemonName.innerHTML = "Not Found!";
-    pokemonImage.src = "https://static.thenounproject.com/png/1527904-200.png";
+    const data = await fetchPokemon(pokemon.toLowerCase());
+    isPokemon(data);
   }
 };
 
@@ -53,12 +39,40 @@ form.addEventListener("submit", (event) => {
   renderPokemon(input.value);
 });
 
-btnNext.addEventListener("click", () => {
-  renderPokemon((searchPokemon += 1));
+btnProximo.addEventListener("click", () => {
+  renderPokemon((pokemonWrapper += 1));
 });
 
-btnPrev.addEventListener("click", () => {
-  if (searchPokemon > 1) {
-    renderPokemon((searchPokemon -= 1));
+btnAnterior.addEventListener("click", () => {
+  if (pokemonWrapper > 1) {
+    renderPokemon((pokemonWrapper -= 1));
   }
 });
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+async function isPokemon(data) {
+  if (data) {
+    nomePokemon.innerHTML = data.name;
+    numeroPokemon.innerHTML = data.id;
+    pokemonWrapper = data.id;
+    console.log(pokemonWrapper);
+    imgPokemon.src = await data["sprites"]["versions"]["generation-v"][
+      "black-white"
+    ]["animated"]["front_default"];
+
+    input.value = "";
+  } else {
+    numeroPokemon.innerHTML = "404";
+    nomePokemon.innerHTML = "Not Found!";
+    imgPokemon.src = "https://static.thenounproject.com/png/1527904-200.png";
+  }
+}
+
+function loading() {
+  numeroPokemon.innerHTML = ":)";
+  nomePokemon.innerHTML = "Carregando";
+  imgPokemon.src = "./img/images/load.gif";
+}
