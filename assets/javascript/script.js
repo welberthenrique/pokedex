@@ -67,7 +67,7 @@ async function isPokemon(data) {
   } else {
     numeroPokemon.innerHTML = "404";
     nomePokemon.innerHTML = "Not Found!";
-    imgPokemon.src = "https://static.thenounproject.com/png/1527904-200.png";
+    imgPokemon.src = "./img/images/404.png";
   }
 }
 
